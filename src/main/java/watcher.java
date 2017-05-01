@@ -41,6 +41,7 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +54,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public class watcher {
-	private static final Logger LOGGER = Logger.getLogger( watcher.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger("watcher.class");
 
     private final WatchService watcher;
     private final Path dir;
@@ -106,20 +107,6 @@ public class watcher {
                 WatchEvent<Path> ev = (WatchEvent<Path>)event;
                 Path filename = ev.context();
 
-                //Verify that the new file is a text file.
-//                try {
-//                    Path child = dir.resolve(filename);
-//                    String what = Files.probeContentType(child);
-//                    System.err.println("what " + what);
-//                    if (!Files.probeContentType(child).equals("text/plain")) {
-//                        System.err.format("New file '%s' is not a plain text file.%n", filename);
-//                        continue;
-//                    }
-//                } catch (IOException x) {
-//                    System.err.println(x);
-//                    continue;
-//                }
-
                 //Send command to Windows.
                 System.out.format("Extracting %s%n", filename);
                 try {
@@ -134,7 +121,7 @@ public class watcher {
                     while ((s = reader.readLine()) != null){
                     	if (!s.equals("")) {
                     		System.out.println(s);
-                    		LOGGER.log( Level.FINE, s);
+                    		LOGGER.info(s);
                     	}
                     }                   
                 	
