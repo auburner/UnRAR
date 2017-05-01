@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
  *
@@ -39,53 +40,51 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
+import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Example monitors a specified directory for new files.
- * If a newly added file is a plain text file, the file can
- * be emailed to the appropriate alias.  The emailing details
- * are left to the reader.  What the example actually does is
+ * Monitors a specified directory for new files. If a newly added file
+ * is a plain text file, the file can be emailed to the appropriate alias. The
+ * emailing details are left to the reader. What the example actually does is
  * print the details to standard out.
  */
 
 public class watcher {
 	private static final Logger LOGGER = LoggerFactory.getLogger("watcher.class");
 
-    private final WatchService watcher;
-    private final Path dir;
-    private final Path zipper;
-    private String torrentPath;
-    private String torrentName;
-    private String logfile;
-    private String destination;
+	private final WatchService watcher;
+	private final Path zipper;
+	private Path torrentPath;
+	private Path torrentName;
+	private String destination;
 
-    /**
-     * Creates a WatchService and registers the given directory
-     * @param destination 
-     * @param logfile 
-     * @param torrentName 
-     * @param torrentPath 
-     */
-    watcher(Path dir, Path zipper, String torrentPath, String torrentName, String logfile, String destination) throws IOException {
-        this.watcher = FileSystems.getDefault().newWatchService();
-        dir.register(watcher, ENTRY_CREATE);
-        this.dir = dir;
-        this.zipper = zipper;
-        this.torrentPath = torrentPath;
-        this.torrentName = torrentName;
-        this.logfile = logfile;
-        this.destination = destination;
-    }
+	/**
+	 * Creates a WatchService and registers the given directory
+	 * 
+	 * @param destination
+	 * @param logfile
+	 * @param torrentName
+	 * @param torrentPath
+	 */
+	watcher(Path dir, Path zipper, Path torrentPath, Path torrentName, String destination)
+			throws IOException {
+		this.watcher = FileSystems.getDefault().newWatchService();
+		dir.register(watcher, ENTRY_CREATE);
+		this.zipper = zipper;
+		this.torrentPath = torrentPath;
+		this.torrentName = torrentName;
+		this.destination = destination;
+	}
 
-    /**
+	/**
      * Process all events for the key queued to the watcher.
      */
-    void processEvents() {
+    @SuppressWarnings("unchecked")
+	void processEvents() {
         for (;;) {
 
             // wait for key to be signaled
@@ -97,7 +96,7 @@ public class watcher {
             }
 
             for (WatchEvent<?> event: key.pollEvents()) {
-                WatchEvent.Kind kind = event.kind();
+                Kind<?> kind = event.kind();
 
                 if (kind == OVERFLOW) {
                     continue;
@@ -111,22 +110,21 @@ public class watcher {
                 System.out.format("Extracting %s%n", filename);
                 try {
                 	String quote = "\"";
-                	String command = quote + zipper + quote + " x " + quote + torrentPath + "\\" + torrentName + ".zip" + quote + " -o" + quote + destination + quote;
-                	String command2 = "\"C:\\Program Files\\7-Zip\\7z.exe\" x \"C:\\devTools\\extractTest\\watched\\extractTest.zip\" -o\"C:\\devTools\\extractTest\\unZipped\"";
-                	System.out.println(command.equals(command2));
+                	String command = quote + zipper + quote + " x " + quote + torrentPath + "\\" + torrentName + ".zip" + quote + " -y -o" + quote + destination + quote;
                     Process process = Runtime.getRuntime().exec(command);
-                    System.out.println("the output stream is "+process.getOutputStream());
                     BufferedReader reader=new BufferedReader( new InputStreamReader(process.getInputStream()));
                     String s; 
                     while ((s = reader.readLine()) != null){
                     	if (!s.equals("")) {
-                    		System.out.println(s);
                     		LOGGER.info(s);
                     	}
                     }                   
                 	
 				} catch (IOException e) {
-					e.printStackTrace();
+					String command2 = "\"C:\\Program Files\\7-Zip\\7z.exe\" x \"C:\\devTools\\extractTest\\watched\\extractTest.zip\" -y -o\"C:\\devTools\\extractTest\\unZipped\"";
+					LOGGER.error(e.getMessage());
+					LOGGER.error("This is what a good command looks like: ");
+					LOGGER.error(command2);
 				}
             }
 
@@ -138,26 +136,29 @@ public class watcher {
                     break;
             }
         }
+        //Go home, your work is done
+        System.exit(0);
     }
 
-    static void usage() {
-        System.err.println("directory | zipper | torrentPath | torrentName | logfile | destination");
-        System.exit(-1);
-    }
+	static void usage() {
+		System.err.println("zipper | torrentPath | torrentName | destination");
+		System.exit(-1);
+	}
 
-    public static void main(String[] args) throws IOException {
-        //parse arguments
-        if (args.length < 5)
-            usage();
+	public static void main(String[] args) throws IOException {
+		// parse arguments
+		if (args.length < 4)
+			usage();
 
-        //register directory and process its events
-        Path wathcedDirectory = Paths.get(args[0]);
-        Path zipper = Paths.get(args[1]);
-        String torrentPath = args[2];
-        String torrentName = args[3];
-        String logfile = args[4];
-        String destination = args[5];
-        
-        new watcher(wathcedDirectory, zipper, torrentPath, torrentName, logfile, destination).processEvents();
-    }
+		// register directory and process its events
+		Path zipper = Paths.get(args[0]);
+		Path torrentPath = Paths.get(args[1]);
+		Path torrentName = Paths.get(args[2]);
+		String destination = args[3];
+
+		Path wathcedDirectory = torrentPath;
+
+		new watcher(wathcedDirectory, zipper, torrentPath, torrentName, destination).processEvents();
+	}
+
 }
