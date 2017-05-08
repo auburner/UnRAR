@@ -132,7 +132,7 @@ public class Watcher {
 	@SuppressWarnings("unchecked")
 	private void processEvents() {
 		Timer stopWatch = new Timer();
-		stopWatch.schedule(exitApp, 60000);
+		stopWatch.schedule(exitApp, 600000);
 		try {
 			getDir().register(watcher, ENTRY_CREATE);
 		} catch (IOException e1) {
@@ -158,6 +158,7 @@ public class Watcher {
 				// The filename is the context of the event.
 				WatchEvent<Path> ev = (WatchEvent<Path>) event;
 				Path filename = ev.context();
+				LOGGER.info("files " + filename.toString());
 
 				// Send command to Windows.
 				if (filename.toString().endsWith("rar")) {
@@ -166,8 +167,7 @@ public class Watcher {
 					LOGGER.info("Extracting " + filename);
 					try {
 						String quote = "\"";
-						String command = quote + getZipper() + quote + " x " + quote + getTorrentPath() + "\\" + getTorrentName()
-								+ ".rar" + quote + " -y -o" + quote + getDestination() + quote;
+						String command = quote + getZipper() + quote + " x " + quote + getTorrentPath() + "\\" + filename.toString() + quote + " -y -o" + quote + getDestination() + quote;
 						LOGGER.info("Executing: " + command);
 						Process process = Runtime.getRuntime().exec(command);
 						BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -234,12 +234,9 @@ public class Watcher {
 		try {
 			props = PropertiesLoader.getInstance().initProperties();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		// TODO properties file that accepts zipper location and destination
-		//String zipper = getZipper();
 		Path torrentPath = Paths.get(args[0]);
 		Path torrentName = Paths.get(args[1]);
 		String label = args[2];
@@ -248,7 +245,7 @@ public class Watcher {
 
 		LOGGER.info("Starting watcher with the following settings:");
 		LOGGER.info("Zipper " + props.getProperty("sevenzip"));
-		LOGGER.info("torrentPath " + torrentPath);
+		LOGGER.info("Watched directory " + torrentPath);
 		LOGGER.info("torrentName " + torrentName);
 		LOGGER.info("Label " + label);
 		LOGGER.info("Destination " + destination);

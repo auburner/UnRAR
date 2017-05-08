@@ -40,7 +40,7 @@ createExe {
   mainClassName = 'Watcher'
   copyConfigurable = project.tasks.fatJar.outputs.files
     jar = "lib/${project.tasks.fatJar.archiveName}"
- // icon = '/resources/images/favicon.ico'
+	icon = 'C:/development/source/GitRepo/Home Work/UnRAR/build/resources/main/images/favicon.ico'
 }
 
 
