@@ -8,3 +8,4 @@ gradlew.bat
 .classpath
 .project
 .settings
+*.setting

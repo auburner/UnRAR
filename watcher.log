@@ -1,0 +1,73 @@
+2017-05-07 20:19:35 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:19:35 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:19:35 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:19:35 INFO  class:252 - torrentName test
+2017-05-07 20:19:35 INFO  class:253 - Label unZipped
+2017-05-07 20:19:35 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 20:20:35 INFO  class:208 - Closing Watcher - Timeout
+2017-05-07 20:21:41 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:21:41 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:21:41 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:21:41 INFO  class:252 - torrentName test
+2017-05-07 20:21:41 INFO  class:253 - Label unZipped
+2017-05-07 20:21:41 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 20:22:41 INFO  class:208 - Closing Watcher - Timeout
+2017-05-07 20:35:05 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:35:05 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:35:05 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:35:05 INFO  class:252 - torrentName test
+2017-05-07 20:35:05 INFO  class:253 - Label unZipped
+2017-05-07 20:35:05 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 20:35:43 INFO  class:166 - Extracting test.rar
+2017-05-07 20:35:50 INFO  class:171 - Executing: "C:\Program Files (x86)\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\test.rar" -y -o"\\Freenas\nasmedia\Completed\unZipped"
+2017-05-07 20:35:58 ERROR class:188 - Cannot run program ""C:\Program": CreateProcess error=2, The system cannot find the file specified
+2017-05-07 20:35:59 ERROR class:189 - This is what a good command looks like: 
+2017-05-07 20:36:04 ERROR class:190 - "C:\Program Files\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\extractTest.rar" -y -o"C:\devTools\extractTest\unZipped"
+2017-05-07 20:36:05 INFO  class:208 - Closing Watcher - Timeout
+2017-05-07 20:38:48 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:38:48 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:38:48 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:38:48 INFO  class:252 - torrentName test
+2017-05-07 20:38:48 INFO  class:253 - Label unZipped
+2017-05-07 20:38:48 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 20:39:43 INFO  class:166 - Extracting test2.rar
+2017-05-07 20:39:43 INFO  class:171 - Executing: "C:\Program Files (x86)\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\test.rar" -y -o"\\Freenas\nasmedia\Completed\unZipped"
+2017-05-07 20:39:43 ERROR class:188 - Cannot run program ""C:\Program": CreateProcess error=2, The system cannot find the file specified
+2017-05-07 20:39:43 ERROR class:189 - This is what a good command looks like: 
+2017-05-07 20:39:43 ERROR class:190 - "C:\Program Files\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\extractTest.rar" -y -o"C:\devTools\extractTest\unZipped"
+2017-05-07 20:39:48 INFO  class:208 - Closing Watcher - Timeout
+2017-05-07 20:41:03 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:41:03 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:41:03 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:41:03 INFO  class:252 - torrentName test
+2017-05-07 20:41:03 INFO  class:253 - Label unZipped
+2017-05-07 20:41:03 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 20:41:41 INFO  class:166 - Extracting test.rar
+2017-05-07 20:41:41 INFO  class:171 - Executing: "C:\Program Files (x86)\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\test.rar" -y -o"\\Freenas\nasmedia\Completed\unZipped"
+2017-05-07 20:41:41 ERROR class:188 - Cannot run program ""C:\Program": CreateProcess error=2, The system cannot find the file specified
+2017-05-07 20:41:41 ERROR class:189 - This is what a good command looks like: 
+2017-05-07 20:41:41 ERROR class:190 - "C:\Program Files\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\extractTest.rar" -y -o"C:\devTools\extractTest\unZipped"
+2017-05-07 20:42:03 INFO  class:208 - Closing Watcher - Timeout
+2017-05-07 20:58:12 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 20:58:12 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 20:58:12 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 20:58:12 INFO  class:252 - torrentName test
+2017-05-07 20:58:12 INFO  class:253 - Label unZipped
+2017-05-07 20:58:12 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 21:00:26 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 21:00:26 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 21:00:26 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 21:00:26 INFO  class:252 - torrentName test
+2017-05-07 21:00:26 INFO  class:253 - Label unZipped
+2017-05-07 21:00:26 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
+2017-05-07 21:00:39 INFO  class:166 - Extracting test.rar
+2017-05-07 21:00:39 INFO  class:171 - Executing: "C:\Program Files (x86)\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\test.rar" -y -o"\\Freenas\nasmedia\Completed\unZipped"
+2017-05-07 21:00:39 ERROR class:188 - Cannot run program ""C:\Program": CreateProcess error=2, The system cannot find the file specified
+2017-05-07 21:00:39 ERROR class:189 - This is what a good command looks like: 
+2017-05-07 21:00:39 ERROR class:190 - "C:\Program Files\7-Zip\7z.exe" x "C:\devTools\extractTest\watched\extractTest.rar" -y -o"C:\devTools\extractTest\unZipped"
+2017-05-07 21:08:03 INFO  class:249 - Starting watcher with the following settings:
+2017-05-07 21:08:03 INFO  class:250 - Zipper C:\Program Files (x86)\7-Zip\7z.exe
+2017-05-07 21:08:03 INFO  class:251 - torrentPath C:\devTools\extractTest\watched
+2017-05-07 21:08:03 INFO  class:252 - torrentName test
+2017-05-07 21:08:03 INFO  class:253 - Label unZipped
+2017-05-07 21:08:03 INFO  class:254 - Destination \\Freenas\nasmedia\Completed\unZipped
