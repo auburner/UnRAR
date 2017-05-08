@@ -30,22 +30,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchEvent.Kind;
-import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +56,6 @@ import org.slf4j.LoggerFactory;
 public class Watcher {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Watcher.class");
 
-	private static WatchService watcher;
 	private static String zipper;
 	private static Path torrentPath;
 	private static Path torrentName;
@@ -111,94 +106,55 @@ public class Watcher {
 	private static String getZipper() {
 		return zipper;
 	}
-	
+
 	private void setZipper(String zipper) {
 		Watcher.zipper = zipper;
 	}
-	
-	/**
-	 * Creates a WatchService and registers the given directory
-	 * 
-	 * @param logfile
-	 */
-	private Watcher() throws IOException {
-		watcher = FileSystems.getDefault().newWatchService();
-	}
-	
 
 	/**
 	 * Process all events for the key queued to the watcher.
 	 */
-	@SuppressWarnings("unchecked")
 	private void processEvents() {
-		Timer stopWatch = new Timer();
-		stopWatch.schedule(exitApp, 600000);
 		try {
-			getDir().register(watcher, ENTRY_CREATE);
-		} catch (IOException e1) {
-			LOGGER.error("A problem regestering the watcher " + e1);
+			Files.walk(getTorrentPath()).filter(p -> p.toString().endsWith(".rar"))
+					.forEach(p -> sendWindowsCommand(p.toString()));
+			// .map(p ->
+			// p.getParent().getParent()).distinct().forEach(System.out::println);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		for (;;) {
+	}
 
-			// wait for key to be signaled
-			WatchKey key;
+	// Send command to Windows.
+	private void sendWindowsCommand(String filename) {
+		if (filename.toString().endsWith("rar")) {
+			boolean exit = false;
+			pause();
+			LOGGER.info("Extracting " + filename);
 			try {
-				key = watcher.take();
-			} catch (InterruptedException x) {
-				return;
-			}
-
-			for (WatchEvent<?> event : key.pollEvents()) {
-				Kind<?> kind = event.kind();
-
-				if (kind == OVERFLOW) {
-					continue;
-				}
-
-				// The filename is the context of the event.
-				WatchEvent<Path> ev = (WatchEvent<Path>) event;
-				Path filename = ev.context();
-				LOGGER.info("files " + filename.toString());
-
-				// Send command to Windows.
-				if (filename.toString().endsWith("rar")) {
-					boolean exit = false;
-					pause();
-					LOGGER.info("Extracting " + filename);
-					try {
-						String quote = "\"";
-						String command = quote + getZipper() + quote + " x " + quote + getTorrentPath() + "\\" + filename.toString() + quote + " -y -o" + quote + getDestination() + quote;
-						LOGGER.info("Executing: " + command);
-						Process process = Runtime.getRuntime().exec(command);
-						BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-						String s;
-						while ((s = reader.readLine()) != null) {
-							if (!s.equals("")) {
-								LOGGER.info(s);
-								exit = Boolean.valueOf(s.contains("Compressed"));
-							}
-						}
-						if (exit) {
-							LOGGER.info("End of output..bye!");
-							System.exit(0);
-						}
-
-					} catch (IOException e) {
-						String command2 = "\"C:\\Program Files\\7-Zip\\7z.exe\" x \"C:\\devTools\\extractTest\\watched\\extractTest.rar\" -y -o\"C:\\devTools\\extractTest\\unZipped\"";
-						LOGGER.error(e.getMessage());
-						LOGGER.error("This is what a good command looks like: ");
-						LOGGER.error(command2);
+				String quote = "\"";
+				String command = quote + getZipper() + quote + " x " + quote + filename.toString() + quote + " -y -o"
+						+ quote + getDestination() + quote;
+				LOGGER.info("Executing: " + command);
+				Process process = Runtime.getRuntime().exec(command);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				String s;
+				while ((s = reader.readLine()) != null) {
+					if (!s.equals("")) {
+						LOGGER.info(s);
+						exit = Boolean.valueOf(s.contains("Compressed"));
 					}
 				}
-			}
+				if (exit) {
+					LOGGER.info("End of output..bye!");
+					System.exit(0);
+				}
 
-			// Reset the key -- this step is critical if you want to receive
-			// further watch events. If the key is no longer valid, the
-			// directory
-			// is inaccessible so exit the loop.
-			boolean valid = key.reset();
-			if (!valid) {
-				break;
+			} catch (IOException e) {
+				String command2 = "\"C:\\Program Files\\7-Zip\\7z.exe\" x \"C:\\devTools\\extractTest\\watched\\extractTest.rar\" -y -o\"C:\\devTools\\extractTest\\unZipped\"";
+				LOGGER.error(e.getMessage());
+				LOGGER.error("This is what a good command looks like: ");
+				LOGGER.error(command2);
 			}
 		}
 	}
@@ -206,9 +162,9 @@ public class Watcher {
 	TimerTask exitApp = new TimerTask() {
 		public void run() {
 			LOGGER.info("Closing Watcher - Timeout");
-		    System.exit(0);
-		    }
-		};
+			System.exit(0);
+		}
+	};
 
 	private static void pause() {
 		try {
@@ -260,7 +216,7 @@ public class Watcher {
 			watcher.setDir(wathcedDirectory);
 			watcher.processEvents();
 		} catch (Exception e) {
-			LOGGER.error("Something bad happend \n"  + e);
+			LOGGER.error("Something bad happend \n" + e);
 		}
 
 	}
