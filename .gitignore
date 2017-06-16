@@ -6,6 +6,6 @@ gradlew.bat
 /build/
 
 .classpath
-.project
-.settings
-*.setting
+#.project
+#.settings
+#*.setting
