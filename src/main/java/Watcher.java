@@ -176,9 +176,9 @@ public class Watcher {
 
 	static void usage() {
 		System.err.println(
-				"Parameters: SevenZip - sys environment | torrentPath | torrentName | UnRAR_Destination - sys environment");
+				"Parameters: SevenZip(in props file) | torrentPath | torrentName | UnRAR_Destination(in props file");
 		LOGGER.info(
-				"Parameters: SevenZip - sys environment | torrentPath | torrentName | UnRAR_Destination - sys environment");
+				"Parameters: SevenZip(in props file) | torrentPath | torrentName | UnRAR_Destination(in props file");
 
 		System.exit(-1);
 	}
@@ -195,7 +195,8 @@ public class Watcher {
 
 		Path torrentPath = Paths.get(args[0]);
 		Path torrentName = Paths.get(args[1]);
-		String label = args[2];
+		//Deluge doesn't pass labels atm..
+		String label = args[2].isEmpty() ? "unZipped" : args[2];
 		String destination = props.getProperty("unrardirectory") + "\\" + label;
 		Path wathcedDirectory = torrentPath;
 
